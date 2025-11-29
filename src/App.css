@@ -1,38 +1,342 @@
-.App {
-  text-align: center;
+/* =========================================
+   1. CẤU HÌNH CHUNG (VARIABLES & RESET)
+   ========================================= */
+:root {
+  --bg-dark: #161512;
+  --bg-panel: #262522;
+  --primary: #81b64c;       /* Xanh lá chủ đạo */
+  --primary-hover: #a3d160;
+  --danger: #d93d3d;        /* Đỏ báo động */
+  --warning: #f39c12;       /* Cam cảnh báo */
+  --text-main: #ffffff;
+  --text-muted: #bababa;
+  --accent: #f1b000;        /* Vàng kim loại */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  /* Hình nền bàn cờ nghệ thuật */
+  background: url('https://images.unsplash.com/photo-1529699211952-734e80c4d42b?q=80&w=2671&auto=format&fit=crop') no-repeat center center fixed;
+  background-size: cover;
+  color: var(--text-main);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  overflow-x: hidden;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Lớp phủ tối để làm nổi bật chữ */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: -1;
 }
 
-.App-header {
-  background-color: #282c34;
+/* =========================================
+   2. LAYOUT & SIDEBAR
+   ========================================= */
+.app-container {
+  display: flex;
   min-height: 100vh;
+  width: 100%;
+}
+
+.sidebar-menu {
+  width: 260px;
+  background: rgba(30, 30, 30, 0.6); /* Kính mờ */
+  backdrop-filter: blur(15px);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 25px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.logo-area {
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--primary);
+  margin-bottom: 50px;
+  display: flex; align-items: center; gap: 12px;
+  text-shadow: 0 0 15px rgba(129, 182, 76, 0.4);
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  text-align: left;
+  padding: 16px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 15px;
+  transition: all 0.2s ease;
+  font-weight: 600;
+}
+
+.nav-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+  padding-left: 25px; /* Hiệu ứng trượt nhẹ */
+}
+
+.nav-btn.active {
+  background: rgba(129, 182, 76, 0.15);
+  color: var(--primary);
+  border-left: 4px solid var(--primary);
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px;
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  position: relative;
+  overflow-y: auto;
 }
 
-.App-link {
-  color: #61dafb;
+/* =========================================
+   3. DASHBOARD HOME (TRANG CHỦ)
+   ========================================= */
+.home-dashboard {
+  width: 100%;
+  max-width: 950px;
+  animation: fadeIn 0.5s ease-out;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.hero-section {
+  background: linear-gradient(135deg, rgba(50, 50, 50, 0.9) 0%, rgba(20, 20, 20, 0.9) 100%);
+  padding: 40px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+  display: flex; justify-content: space-between; align-items: center;
 }
+
+.hero-text h1 { margin: 0 0 10px 0; font-size: 36px; letter-spacing: -1px; }
+.hero-text p { color: var(--text-muted); margin: 0; font-size: 18px; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 25px;
+  border-radius: 16px;
+  display: flex; align-items: center; gap: 20px;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.stat-card:hover { transform: translateY(-5px); border-color: var(--primary); background: rgba(255, 255, 255, 0.08); }
+
+.stat-icon { font-size: 32px; color: var(--primary); }
+.stat-info h3 { margin: 0; font-size: 28px; color: white; }
+.stat-info span { color: #888; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+
+.action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+
+.play-card {
+  background: rgba(20, 20, 20, 0.6);
+  padding: 40px;
+  border-radius: 20px;
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  text-align: center;
+  transition: 0.3s;
+}
+.play-card:hover { border-color: var(--primary); background: rgba(20, 20, 20, 0.8); }
+.play-card h2 { margin: 15px 0; font-size: 22px; }
+.play-card p { color: #888; margin-bottom: 25px; }
+
+/* =========================================
+   4. GAME PLAY AREA (BÀN CỜ)
+   ========================================= */
+.game-layout {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  width: 100%;
+}
+
+.board-container {
+  width: 560px;
+  height: 560px;
+  background-color: #302e2b;
+  flex-shrink: 0; /* QUAN TRỌNG: Không bị co lại */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  border-radius: 6px;
+  border: 8px solid #262522;
+  overflow: hidden;
+}
+
+.game-sidebar {
+  width: 340px;
+  background: rgba(30, 30, 30, 0.85);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  display: flex; flex-direction: column;
+  height: 600px;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.player-card {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-left: 4px solid transparent;
+  transition: all 0.3s;
+}
+.player-card.active {
+  border-left-color: var(--primary);
+  background: rgba(129, 182, 76, 0.15);
+  box-shadow: 0 0 20px rgba(129, 182, 76, 0.2);
+}
+
+.timer {
+  background: #111; color: #fff;
+  padding: 8px 12px; font-family: monospace; font-size: 22px;
+  border-radius: 6px; border: 1px solid #444; letter-spacing: 2px;
+}
+.low-time { color: #ff4757; text-shadow: 0 0 10px #ff4757; animation: blink 1s infinite; }
+
+.move-list {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+  font-family: monospace; font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.move-item { display: flex; padding: 8px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.move-item:nth-child(even) { background: rgba(255,255,255,0.03); }
+
+/* =========================================
+   5. BẢNG XẾP HẠNG & LỊCH SỬ
+   ========================================= */
+.leaderboard-view, .history-view {
+  width: 100%; max-width: 900px;
+  background: rgba(35, 35, 35, 0.85); backdrop-filter: blur(15px);
+  border-radius: 16px; padding: 30px; border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  animation: popIn 0.3s;
+}
+
+.leaderboard-table { width: 100%; border-collapse: collapse; color: #ddd; }
+.leaderboard-table th { text-align: left; padding: 18px; border-bottom: 2px solid #444; color: var(--primary); text-transform: uppercase; font-size: 14px; letter-spacing: 1px; }
+.leaderboard-table td { padding: 18px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 16px; }
+.leaderboard-table tr:hover td { background: rgba(255, 255, 255, 0.05); }
+
+/* =========================================
+   6. UI ADMIN & AUTH (ĐĂNG NHẬP)
+   ========================================= */
+.auth-container, .admin-container {
+  /* Cho phép admin dùng chung hình nền body nhưng sáng hơn */
+  width: 100%; height: 100vh;
+  display: flex; justify-content: center; align-items: center;
+}
+
+.auth-box {
+  background: rgba(30, 30, 30, 0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  padding: 50px; border-radius: 20px; width: 400px; text-align: center;
+}
+
+/* Giao diện Admin riêng biệt */
+.admin-container {
+  display: block;
+  background-color: #f4f6f8; /* Nền sáng cho Admin dễ nhìn */
+  color: #333; /* Chữ đen */
+}
+.admin-header { background: #2c3e50; color: white; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; }
+.admin-content { padding: 40px; max-width: 1100px; margin: 0 auto; }
+.admin-table { width: 100%; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); overflow: hidden; }
+.admin-table th { background: #34495e; color: white; padding: 15px; }
+.admin-table td { padding: 15px; border-bottom: 1px solid #eee; color: #333; }
+
+/* =========================================
+   7. ELEMENTS (BUTTONS, INPUTS, MODAL)
+   ========================================= */
+/* Inputs */
+.input-field, .input-dark {
+  background: #1e1e1e; border: 2px solid #444; color: white;
+  padding: 14px; border-radius: 8px; width: 100%; box-sizing: border-box;
+  transition: 0.3s; font-size: 16px; margin-bottom: 15px;
+}
+.input-field:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(129, 182, 76, 0.3); outline: none; }
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, #81b64c 0%, #659242 100%);
+  color: white; padding: 14px 24px; font-size: 16px; font-weight: 700;
+  border-radius: 8px; border: none; cursor: pointer; width: 100%;
+  box-shadow: 0 4px 0 #4e7032; transition: 0.2s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #4e7032, 0 10px 20px rgba(129, 182, 76, 0.4); filter: brightness(1.1); }
+.btn-primary:active { transform: translateY(2px); box-shadow: 0 2px 0 #4e7032; }
+
+.btn-large {
+  background: linear-gradient(45deg, #ff9f00, #ff5e00);
+  color: white; padding: 18px 36px; font-size: 20px; font-weight: 800;
+  border-radius: 50px; border: none; cursor: pointer;
+  box-shadow: 0 5px 15px rgba(255, 94, 0, 0.4);
+  animation: pulse-orange 2s infinite; text-transform: uppercase;
+}
+.btn-large:hover { transform: scale(1.05); }
+
+/* Game Buttons */
+.btn-game {
+  flex: 1; padding: 12px; font-weight: bold; border-radius: 8px;
+  color: white; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 3px 0 rgba(0,0,0,0.3); transition: 0.2s; font-size: 14px;
+}
+.btn-draw { background: #f39c12; border-bottom: 3px solid #d35400; }
+.btn-resign { background: #c0392b; border-bottom: 3px solid #96281b; }
+.btn-reset { background: #81b64c; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; margin-top: 20px; }
+
+/* Admin Buttons */
+.btn-ban { background: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+.btn-unban { background: #2ecc71; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+.btn-view { background: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-right: 5px; }
+
+/* Modal */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
+  display: flex; justify-content: center; align-items: center; z-index: 9999;
+}
+.modal-content {
+  background: #222; padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
+  text-align: center; min-width: 350px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.modal-content h2, .modal-content h3 { color: white; margin-top: 0; }
+
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes blink { 50% { opacity: 0.5; } }
+@keyframes pulse-orange { 0% { box-shadow: 0 0 0 0 rgba(255, 159, 0, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 159, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 159, 0, 0); } }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
