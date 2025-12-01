@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Chess } from "chess.js";
-import { Chessboard } from "react-chessboard";
-import { FaStepBackward, FaChevronLeft, FaChevronRight, FaStepForward, FaTimes } from "react-icons/fa";
+import React, {useState, useEffect} from "react";
+import {Chess} from "chess.js";
+import {Chessboard} from "react-chessboard";
+import {FaStepBackward, FaChevronLeft, FaChevronRight, FaStepForward, FaTimes} from "react-icons/fa";
 
-const ReplayBoard = ({ pgn, onBack }) => {
+const ReplayBoard = ({pgn, onBack}) => {
     const [game, setGame] = useState(new Chess());
     const [moveIndex, setMoveIndex] = useState(-1); // -1: Chưa đi nước nào
     const [history, setHistory] = useState([]);
@@ -54,8 +54,8 @@ const ReplayBoard = ({ pgn, onBack }) => {
                     arePiecesDraggable={false} // Khóa kéo thả
                     boardWidth={560}
                     // --- MÀU BÀN CỜ HOLOGRAM (SÁNG ĐẸP) ---
-                    customDarkSquareStyle={{ backgroundColor: '#006064' }}
-                    customLightSquareStyle={{ backgroundColor: '#b2ebf2' }}
+                    customDarkSquareStyle={{backgroundColor: '#006064'}}
+                    customLightSquareStyle={{backgroundColor: '#b2ebf2'}}
                     // --------------------------------------
                 />
             </div>
@@ -63,7 +63,7 @@ const ReplayBoard = ({ pgn, onBack }) => {
             <div className="game-sidebar" style={{justifyContent: 'space-between'}}>
                 <div className="sidebar-header" style={{color: 'var(--neon-cyan)'}}>
                     <h3>🎥 REPLAY MODE</h3>
-                    <small style={{color:'#888'}}>Nước đi: {moveIndex + 1} / {history.length}</small>
+                    <small style={{color: '#888'}}>Nước đi: {moveIndex + 1} / {history.length}</small>
                 </div>
 
                 {/* Danh sách nước đi */}
@@ -72,12 +72,20 @@ const ReplayBoard = ({ pgn, onBack }) => {
                         if (i % 2 === 0) {
                             return (
                                 <div key={i} className="move-item" style={{
-                                    background: (i === moveIndex || i+1 === moveIndex) ? 'rgba(0, 243, 255, 0.2)' : 'transparent',
-                                    borderLeft: (i === moveIndex || i+1 === moveIndex) ? '2px solid var(--neon-cyan)' : 'none'
+                                    background: (i === moveIndex || i + 1 === moveIndex) ? 'rgba(0, 243, 255, 0.2)' : 'transparent',
+                                    borderLeft: (i === moveIndex || i + 1 === moveIndex) ? '2px solid var(--neon-cyan)' : 'none'
                                 }}>
-                                    <div style={{width:30, color:'#666'}}>{(i/2)+1}.</div>
-                                    <div style={{flex:1, color: i===moveIndex?'white':'#aaa', fontWeight: i===moveIndex?'bold':'normal'}}>{move}</div>
-                                    <div style={{flex:1, color: (i+1)===moveIndex?'white':'#aaa', fontWeight: (i+1)===moveIndex?'bold':'normal'}}>{history[i+1] || ''}</div>
+                                    <div style={{width: 30, color: '#666'}}>{(i / 2) + 1}.</div>
+                                    <div style={{
+                                        flex: 1,
+                                        color: i === moveIndex ? 'white' : '#aaa',
+                                        fontWeight: i === moveIndex ? 'bold' : 'normal'
+                                    }}>{move}</div>
+                                    <div style={{
+                                        flex: 1,
+                                        color: (i + 1) === moveIndex ? 'white' : '#aaa',
+                                        fontWeight: (i + 1) === moveIndex ? 'bold' : 'normal'
+                                    }}>{history[i + 1] || ''}</div>
                                 </div>
                             );
                         }
@@ -87,22 +95,25 @@ const ReplayBoard = ({ pgn, onBack }) => {
 
                 {/* Bộ điều khiển */}
                 <div style={{display: 'flex', gap: 5, marginBottom: 10}}>
-                    <button className="btn-game" style={{background:'#333'}} onClick={() => jumpTo(-1)} title="Về đầu">
+                    <button className="btn-game" style={{background: '#333'}} onClick={() => jumpTo(-1)} title="Về đầu">
                         <FaStepBackward/>
                     </button>
-                    <button className="btn-game" style={{background:'#444'}} onClick={handlePrev} disabled={moveIndex < 0}>
+                    <button className="btn-game" style={{background: '#444'}} onClick={handlePrev}
+                            disabled={moveIndex < 0}>
                         <FaChevronLeft/>
                     </button>
-                    <button className="btn-game" style={{background:'#444'}} onClick={handleNext} disabled={moveIndex >= history.length - 1}>
+                    <button className="btn-game" style={{background: '#444'}} onClick={handleNext}
+                            disabled={moveIndex >= history.length - 1}>
                         <FaChevronRight/>
                     </button>
-                    <button className="btn-game" style={{background:'#333'}} onClick={() => jumpTo(history.length - 1)} title="Về cuối">
+                    <button className="btn-game" style={{background: '#333'}} onClick={() => jumpTo(history.length - 1)}
+                            title="Về cuối">
                         <FaStepForward/>
                     </button>
                 </div>
 
-                <button className="btn-reset" onClick={onBack} style={{background: 'var(--danger)', color:'white'}}>
-                    <FaTimes /> ĐÓNG REPLAY
+                <button className="btn-reset" onClick={onBack} style={{background: 'var(--danger)', color: 'white'}}>
+                    <FaTimes/> ĐÓNG REPLAY
                 </button>
             </div>
         </div>
