@@ -6,9 +6,16 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+# --- QUAN TRỌNG NHẤT: Thư viện nặng ---
 node_modules/
 /node_modules
 
+# --- File môi trường (Chứa mật khẩu, API Key - Cấm public) ---
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # --- Rác hệ thống ---
 .DS_Store

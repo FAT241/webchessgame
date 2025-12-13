@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
     isBanned: {type: Boolean, default: false},
 
     friends: [{type: String}],
-    friendRequests: [{type: String}], /
+    friendRequests: [{type: String}],
 
     createdAt: {type: Date, default: Date.now}
 });
