@@ -3,18 +3,64 @@ import {Chess} from "chess.js";
 import {Chessboard} from "react-chessboard";
 import {FaUndo, FaHome, FaBrain} from "react-icons/fa";
 
+// --- BẢNG ĐIỂM VỊ TRÍ (Giữ nguyên) ---
 const pst = {
-    p: [[0, 0, 0, 0, 0, 0, 0, 0], [50, 50, 50, 50, 50, 50, 50, 50], [10, 10, 20, 30, 30, 20, 10, 10], [5, 5, 10, 25, 25, 10, 5, 5], [0, 0, 0, 20, 20, 0, 0, 0], [5, -5, -10, 0, 0, -10, -5, 5], [5, 10, 10, -20, -20, 10, 10, 5], [0, 0, 0, 0, 0, 0, 0, 0]],
-    n: [[-50, -40, -30, -30, -30, -30, -40, -50], [-40, -20, 0, 0, 0, 0, -20, -40], [-30, 0, 10, 15, 15, 10, 0, -30], [-30, 5, 15, 20, 20, 15, 5, -30], [-30, 0, 15, 20, 20, 15, 0, -30], [-30, 5, 10, 15, 15, 10, 5, -30], [-40, -20, 0, 5, 5, 0, -20, -40], [-50, -40, -30, -30, -30, -30, -40, -50]],
-    b: [[-20, -10, -10, -10, -10, -10, -10, -20], [-10, 0, 0, 0, 0, 0, 0, -10], [-10, 0, 5, 10, 10, 5, 0, -10], [-10, 5, 5, 10, 10, 5, 5, -10], [-10, 0, 10, 10, 10, 10, 0, -10], [-10, 10, 10, 10, 10, 10, 10, -10], [-10, 5, 0, 0, 0, 0, 5, -10], [-20, -10, -10, -10, -10, -10, -10, -20]],
-    r: [[0, 0, 0, 0, 0, 0, 0, 0], [5, 10, 10, 10, 10, 10, 10, 5], [-5, 0, 0, 0, 0, 0, 0, -5], [-5, 0, 0, 0, 0, 0, 0, -5], [-5, 0, 0, 0, 0, 0, 0, -5], [-5, 0, 0, 0, 0, 0, 0, -5], [-5, 0, 0, 0, 0, 0, 0, -5], [0, 0, 0, 5, 5, 0, 0, 0]],
-    q: [[-20, -10, -10, -5, -5, -10, -10, -20], [-10, 0, 0, 0, 0, 0, 0, -10], [-10, 0, 5, 5, 5, 5, 0, -10], [-5, 0, 5, 5, 5, 5, 0, -5], [0, 0, 5, 5, 5, 5, 0, -5], [-10, 5, 5, 5, 5, 5, 0, -10], [-10, 0, 5, 0, 0, 0, 0, -10], [-20, -10, -10, -5, -5, -10, -10, -20]],
-    k: [[-30, -40, -40, -50, -50, -40, -40, -30], [-30, -40, -40, -50, -50, -40, -40, -30], [-30, -40, -40, -50, -50, -40, -40, -30], [-30, -40, -40, -50, -50, -40, -40, -30], [-20, -30, -30, -40, -40, -30, -30, -20], [-10, -20, -20, -20, -20, -20, -20, -10], [20, 20, 0, 0, 0, 0, 20, 20], [20, 30, 10, 0, 0, 10, 30, 20]]
+    p: [[0, 0, 0, 0, 0, 0, 0, 0],
+        [50, 50, 50, 50, 50, 50, 50, 50],
+        [10, 10, 20, 30, 30, 20, 10, 10],
+        [5, 5, 10, 25, 25, 10, 5, 5],
+        [0, 0, 0, 20, 20, 0, 0, 0],
+        [5, -5, -10, 0, 0, -10, -5, 5],
+        [5, 10, 10, -20, -20, 10, 10, 5],
+        [0, 0, 0, 0, 0, 0, 0, 0]],
+    n: [[-50, -40, -30, -30, -30, -30, -40, -50],
+        [-40, -20, 0, 0, 0, 0, -20, -40],
+        [-30, 0, 10, 15, 15, 10, 0, -30],
+        [-30, 5, 15, 20, 20, 15, 5, -30],
+        [-30, 0, 15, 20, 20, 15, 0, -30],
+        [-30, 5, 10, 15, 15, 10, 5, -30],
+        [-40, -20, 0, 5, 5, 0, -20, -40],
+        [-50, -40, -30, -30, -30, -30, -40, -50]],
+    b: [[-20, -10, -10, -10, -10, -10, -10, -20],
+        [-10, 0, 0, 0, 0, 0, 0, -10],
+        [-10, 0, 5, 10, 10, 5, 0, -10],
+        [-10, 5, 5, 10, 10, 5, 5, -10],
+        [-10, 0, 10, 10, 10, 10, 0, -10],
+        [-10, 10, 10, 10, 10, 10, 10, -10],
+        [-10, 5, 0, 0, 0, 0, 5, -10],
+        [-20, -10, -10, -10, -10, -10, -10, -20]],
+    r: [[0, 0, 0, 0, 0, 0, 0, 0],
+        [5, 10, 10, 10, 10, 10, 10, 5],
+        [-5, 0, 0, 0, 0, 0, 0, -5],
+        [-5, 0, 0, 0, 0, 0, 0, -5],
+        [-5, 0, 0, 0, 0, 0, 0, -5],
+        [-5, 0, 0, 0, 0, 0, 0, -5],
+        [-5, 0, 0, 0, 0, 0, 0, -5],
+        [0, 0, 0, 5, 5, 0, 0, 0]],
+    q: [[-20, -10, -10, -5, -5, -10, -10, -20],
+        [-10, 0, 0, 0, 0, 0, 0, -10],
+        [-10, 0, 5, 5, 5, 5, 0, -10],
+        [-5, 0, 5, 5, 5, 5, 0, -5],
+        [0, 0, 5, 5, 5, 5, 0, -5],
+        [-10, 5, 5, 5, 5, 5, 0, -10],
+        [-10, 0, 5, 0, 0, 0, 0, -10],
+        [-20, -10, -10, -5, -5, -10, -10, -20]],
+    k: [[-30, -40, -40, -50, -50, -40, -40, -30],
+        [-30, -40, -40, -50, -50, -40, -40, -30],
+        [-30, -40, -40, -50, -50, -40, -40, -30],
+        [-30, -40, -40, -50, -50, -40, -40, -30],
+        [-20, -30, -30, -40, -40, -30, -30, -20],
+        [-10, -20, -20, -20, -20, -20, -20, -10],
+        [20, 20, 0, 0, 0, 0, 20, 20],
+        [20, 30, 10, 0, 0, 10, 30, 20]]
 };
 const pieceValues = {p: 100, n: 320, b: 330, r: 500, q: 900, k: 20000};
 
 export default function GameAI({onBack}) {
     const [game, setGame] = useState(new Chess());
+    // FIX: Thêm state lưu lịch sử các nước đi (FEN string)
+    const [history, setHistory] = useState([new Chess().fen()]);
+
     const [difficulty, setDifficulty] = useState("Medium");
     const [status, setStatus] = useState("");
     const [optionSquares, setOptionSquares] = useState({});
@@ -22,11 +68,9 @@ export default function GameAI({onBack}) {
     const moveAudio = new Audio('/sounds/move.mp3');
     const safePlay = () => {
         try {
-            moveAudio.currentTime = 0.1;
-            moveAudio.play().catch(() => {
-            });
-        } catch (e) {
-        }
+            moveAudio.currentTime = 0;
+            moveAudio.play().catch(() => {});
+        } catch (e) {}
     };
 
     const evaluateBoard = (g) => {
@@ -42,6 +86,7 @@ export default function GameAI({onBack}) {
         }
         return total;
     };
+
     const minimax = (g, depth, alpha, beta, isMax) => {
         if (depth === 0 || g.game_over()) return evaluateBoard(g);
         let moves = g.moves({verbose: true});
@@ -73,6 +118,7 @@ export default function GameAI({onBack}) {
             return min;
         }
     };
+
     const getBestMove = (g) => {
         const moves = g.moves({verbose: true});
         if (moves.length === 0) return null;
@@ -97,14 +143,32 @@ export default function GameAI({onBack}) {
         return bestMove || moves[0];
     };
 
+    // --- HÀM UNDO ĐÃ ĐƯỢC FIX ---
     const undoMove = () => {
-        const g = new Chess(game.fen());
-        const m1 = g.undo();
-        if (m1) {
-            g.undo();
-            setGame(g);
-            setStatus("Đã đi lại!");
+        // Nếu chỉ còn trạng thái ban đầu thì không undo được
+        if (history.length <= 1) return;
+
+        // Copy mảng lịch sử ra để xử lý
+        const newHistory = [...history];
+
+        // Xóa trạng thái hiện tại (nước của MÁY vừa đi)
+        newHistory.pop();
+
+        // Nếu vẫn còn > 1 (tức là có nước của NGƯỜI), xóa tiếp
+        if (newHistory.length > 1) {
+            newHistory.pop();
         }
+
+        // Lấy trạng thái FEN cuối cùng còn lại
+        const prevFen = newHistory[newHistory.length - 1];
+
+        // Khôi phục bàn cờ từ FEN đó
+        const newGame = new Chess(prevFen);
+
+        setGame(newGame);
+        setHistory(newHistory);
+        setStatus("Đã đi lại!");
+        setOptionSquares({}); // Xóa gợi ý cũ
     };
 
     function onPieceDragBegin(piece, sourceSquare) {
@@ -124,73 +188,113 @@ export default function GameAI({onBack}) {
 
     function onDrop(source, target) {
         if (game.game_over()) return false;
+
+        // Tạo clone bàn cờ hiện tại
         const g = new Chess(game.fen());
+
         try {
-            if (!g.move({from: source, to: target, promotion: "q"})) return false;
+            // 1. NGƯỜI ĐI
+            const move = g.move({from: source, to: target, promotion: "q"});
+            if (!move) return false;
+
+            const userFen = g.fen();
             setGame(g);
             setOptionSquares({});
             safePlay();
+
+            // FIX: Lưu ngay vào lịch sử sau khi người đi
+            setHistory(prev => [...prev, userFen]);
+
         } catch (e) {
             return false;
         }
+
         setStatus("Máy đang tính...");
+
+        // 2. MÁY ĐI
         setTimeout(() => {
-            if (g.game_over()) {
+            // Tạo instance mới từ FEN hiện tại để AI tính toán
+            const gAI = new Chess(g.fen());
+
+            if (gAI.game_over()) {
                 setStatus("KẾT THÚC!");
                 return;
             }
-            const aiMove = getBestMove(g);
+
+            const aiMove = getBestMove(gAI);
             if (aiMove) {
-                g.move(aiMove);
-                setGame(new Chess(g.fen()));
+                gAI.move(aiMove);
+                const aiFen = gAI.fen();
+
+                setGame(new Chess(aiFen)); // Cập nhật hiển thị
                 safePlay();
                 setStatus(difficulty === "Hard" ? "MÁY ĐÃ ĐI" : "ĐẾN LƯỢT BẠN");
+
+                // FIX: Lưu ngay vào lịch sử sau khi máy đi
+                setHistory(prev => [...prev, aiFen]);
             }
         }, 100);
         return true;
     }
 
-    return (<div className="game-layout">
-        <div className="board-container" style={{width: 560, height: 560}}>
-            <Chessboard position={game.fen()} onPieceDrop={onDrop} boardWidth={560}
-                        customDarkSquareStyle={{backgroundColor: '#006064'}}
-                        customLightSquareStyle={{backgroundColor: '#b2ebf2'}}
-                        customSquareStyles={optionSquares}
-                        onPieceDragBegin={onPieceDragBegin}
-                        onPieceDragEnd={() => setOptionSquares({})}
-            />
-        </div>
-        <div className="game-sidebar">
-            <div className="sidebar-header" style={{color: 'var(--neon-yellow)', borderBottom: '1px solid #333'}}>
-                <h3><FaBrain/> TRÍ TUỆ NHÂN TẠO</h3></div>
-            <div style={{padding: 20, display: 'flex', flexDirection: 'column', gap: 20}}>
-                <div><label style={{color: '#888', display: 'block', marginBottom: 5}}>ĐỘ KHÓ:</label><select
-                    className="input-dark" value={difficulty} onChange={(e) => setDifficulty(e.target.value)}>
-                    <option value="Easy">DỄ</option>
-                    <option value="Medium">TRUNG BÌNH</option>
-                    <option value="Hard">KHÓ</option>
-                </select></div>
-                <div style={{
-                    background: 'rgba(255,255,255,0.05)', padding: 20, borderRadius: 8, border: '1px solid #333'
-                }}><p style={{color: 'var(--neon-cyan)', margin: 0, fontWeight: 'bold'}}>TRẠNG THÁI:</p><p
-                    style={{color: '#fff', margin: '10px 0 0 0', fontFamily: 'Orbitron'}}>{status || "SẴN SÀNG"}</p>
+    // Hàm Reset game mới hoàn chỉnh
+    const handleNewGame = () => {
+        const newG = new Chess();
+        setGame(newG);
+        setHistory([newG.fen()]); // Reset lịch sử về ban đầu
+        setStatus("");
+        setOptionSquares({});
+    };
+
+    return (
+        <div className="game-layout">
+            <div className="board-container" style={{width: 560, height: 560}}>
+                <Chessboard
+                    position={game.fen()}
+                    onPieceDrop={onDrop}
+                    boardWidth={560}
+                    customDarkSquareStyle={{backgroundColor: '#006064'}}
+                    customLightSquareStyle={{backgroundColor: '#b2ebf2'}}
+                    customSquareStyles={optionSquares}
+                    onPieceDragBegin={onPieceDragBegin}
+                    onPieceDragEnd={() => setOptionSquares({})}
+                />
+            </div>
+            <div className="game-sidebar">
+                <div className="sidebar-header" style={{color: 'var(--neon-yellow)', borderBottom: '1px solid #333'}}>
+                    <h3><FaBrain/> TRÍ TUỆ NHÂN TẠO</h3>
                 </div>
-                <div style={{marginTop: 'auto', display: 'flex', gap: 10, flexDirection: 'column'}}>
-                    <div style={{display: 'flex', gap: 10}}>
-                        <button className="btn-primary" onClick={() => {
-                            setGame(new Chess());
-                            setStatus("");
-                        }} style={{flex: 1, background: 'var(--neon-cyan)', color: 'black'}}>VÁN MỚI
-                        </button>
-                        <button className="btn-primary" onClick={undoMove}
-                                style={{flex: 1, background: 'var(--neon-yellow)', color: 'black'}}><FaUndo/> ĐI LẠI
+                <div style={{padding: 20, display: 'flex', flexDirection: 'column', gap: 20}}>
+                    <div>
+                        <label style={{color: '#888', display: 'block', marginBottom: 5}}>ĐỘ KHÓ:</label>
+                        <select
+                            className="input-dark" value={difficulty} onChange={(e) => setDifficulty(e.target.value)}>
+                            <option value="Easy">DỄ</option>
+                            <option value="Medium">TRUNG BÌNH</option>
+                            <option value="Hard">KHÓ</option>
+                        </select>
+                    </div>
+                    <div style={{
+                        background: 'rgba(255,255,255,0.05)', padding: 20, borderRadius: 8, border: '1px solid #333'
+                    }}>
+                        <p style={{color: 'var(--neon-cyan)', margin: 0, fontWeight: 'bold'}}>TRẠNG THÁI:</p>
+                        <p style={{color: '#fff', margin: '10px 0 0 0', fontFamily: 'Orbitron'}}>{status || "SẴN SÀNG"}</p>
+                    </div>
+                    <div style={{marginTop: 'auto', display: 'flex', gap: 10, flexDirection: 'column'}}>
+                        <div style={{display: 'flex', gap: 10}}>
+                            <button className="btn-primary" onClick={handleNewGame}
+                                    style={{flex: 1, background: 'var(--neon-cyan)', color: 'black'}}>VÁN MỚI
+                            </button>
+                            <button className="btn-primary" onClick={undoMove}
+                                    style={{flex: 1, background: 'var(--neon-yellow)', color: 'black'}}><FaUndo/> ĐI LẠI
+                            </button>
+                        </div>
+                        <button className="btn-reset" onClick={onBack}
+                                style={{background: '#222', width: '100%', border: '1px solid #444'}}><FaHome/> QUAY LẠI
                         </button>
                     </div>
-                    <button className="btn-reset" onClick={onBack}
-                            style={{background: '#222', width: '100%', border: '1px solid #444'}}><FaHome/> QUAY LẠI
-                    </button>
                 </div>
             </div>
         </div>
-    </div>);
+    );
 }

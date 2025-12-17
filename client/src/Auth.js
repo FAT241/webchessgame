@@ -14,7 +14,6 @@ const Auth = ({onLoginSuccess}) => {
         e.preventDefault();
         setMessage('');
 
-        // Validate phía Client
         if (isRegister) {
             if (password !== confirmPassword) {
                 setMessage('❌ Mật khẩu xác nhận không khớp!');
